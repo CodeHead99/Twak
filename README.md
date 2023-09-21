@@ -1,2 +1,0 @@
-# Twak
-Chat Application
