@@ -21,10 +21,20 @@ import {
 } from "phosphor-react";
 import React, { useState } from "react";
 import Shortcuts from "../../Sections/Settings/Shortcuts";
+import ThemeDialog from "../../Sections/Settings/ThemeDialog";
 
 const Settings = () => {
   const theme = useTheme();
   const [openShortcuts, setOpenShortcuts] = useState(false);
+  const [openTheme, setOpenTheme] = useState(false);
+
+  const handleOpenTheme = () => {
+    setOpenTheme(true);
+  };
+
+  const handleCloseTheme = () => {
+    setOpenTheme(false);
+  };
   const handleOpenShortcuts = () => {
     setOpenShortcuts(true);
   };
@@ -54,8 +64,7 @@ const Settings = () => {
       key: 3,
       icon: <PencilCircle size={20} />,
       title: "Theme",
-      //   onclick: handleOpenTheme,
-      onClick: () => {},
+      onClick: handleOpenTheme,
     },
     {
       key: 4,
@@ -141,6 +150,9 @@ const Settings = () => {
       </Stack>
       {openShortcuts && (
         <Shortcuts open={openShortcuts} handleClose={handleCloseShortcuts} />
+      )}
+      {openTheme && (
+        <ThemeDialog open={openTheme} handleClose={handleCloseTheme} />
       )}
     </>
   );
