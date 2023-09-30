@@ -31,7 +31,7 @@ const Message = ({ menu }) => {
                 default:
                   return <TextMsg el={el} menu={menu} />;
               }
-              break;
+
             default:
               break;
           }

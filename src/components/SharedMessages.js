@@ -1,9 +1,6 @@
 import React from "react";
 import {
-  Avatar,
   Box,
-  Button,
-  Divider,
   IconButton,
   Stack,
   Typography,

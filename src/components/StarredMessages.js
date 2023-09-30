@@ -1,23 +1,10 @@
 import React from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Stack,
-  Typography,
-  Tabs,
-  Tab,
-  Grid,
-} from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { UpdateSidebarType } from "../redux/Slices/app";
 import { CaretLeft } from "phosphor-react";
-import { faker } from "@faker-js/faker";
-import { SHARED_DOCUMENTS, SHARED_LINKS } from "../data";
-import { LinkMsg, DocMsg } from "./Conversation/MsgTypes";
+
 import Message from "./Conversation/Message";
 
 const StarredMessages = () => {
