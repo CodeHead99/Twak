@@ -21,7 +21,12 @@ export default function Router() {
     {
       path: "/auth",
       element: <MainLayout />,
-      children: [{ path: "login", element: <Login /> }],
+      children: [
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+        { path: "reset-password", element: <ResetPassword /> },
+        { path: "new-password", element: <NewPassword /> },
+      ],
     },
     {
       path: "/",
@@ -39,6 +44,14 @@ export default function Router() {
   ]);
 }
 const Login = Loadable(lazy(() => import("../pages/Auth/Login")));
+const NewPassword = Loadable(lazy(() => import("../pages/Auth/NewPassword")));
+
+const ResetPassword = Loadable(
+  lazy(() => import("../pages/Auth/ResetPassword"))
+);
+
+const Register = Loadable(lazy(() => import("../pages/Auth/Register")));
+
 const GeneralApp = Loadable(
   lazy(() => import("../pages/dashboard/GeneralApp"))
 );
