@@ -3,8 +3,6 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogContentText,
-  DialogActions,
   DialogTitle,
   Slide,
   Stack,
@@ -12,7 +10,6 @@ import {
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { async } from "emoji-mart";
 import FormProvider from "../../components/hook-form/FormProvider";
 import { RhfTextField } from "../../components/hook-form";
 import RhfAutoComplete from "../../components/hook-form/RhfAutoComplete";

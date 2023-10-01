@@ -46,7 +46,7 @@ const Group = () => {
               alignItems={"center"}
               justifyContent={"space-between"}
             >
-              <Typography variant="h5">Chats</Typography>
+              <Typography variant="h5">Groups</Typography>
             </Stack>
             <Stack sx={{ width: "100%" }}>
               <Search>
