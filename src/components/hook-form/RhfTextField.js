@@ -6,6 +6,7 @@ import { TextField } from "@mui/material";
 
 RhfTextField.propTypes = {
   name: propTypes.string,
+  label: propTypes.string,
   helperText: propTypes.node,
 };
 export default function RhfTextField({ name, helperText, ...other }) {
@@ -19,6 +20,11 @@ export default function RhfTextField({ name, helperText, ...other }) {
           <TextField
             {...field}
             fullWidth
+            value={
+              typeof field.value === "number" && field.value === 0
+                ? ""
+                : field.value
+            }
             error={!!error}
             helperText={error ? error.message : helperText}
             {...other}

@@ -15,11 +15,16 @@ import {
   StyledInputBase,
 } from "../../components/Search";
 import { MagnifyingGlass, Plus } from "phosphor-react";
-import React from "react";
+import React, { useState } from "react";
 import { ChatList } from "../../data";
+import CreateGroup from "../../Sections/Main/CreateGroup";
 
 const Group = () => {
   const theme = useTheme();
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   return (
     <>
       <Stack direction={"row"} sx={{ width: "100%" }}>
@@ -59,7 +64,11 @@ const Group = () => {
               <Typography variant="subtitle2" component={Link}>
                 Create New Group
               </Typography>
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  setOpenDialog(true);
+                }}
+              >
                 <Plus style={{ color: theme.palette.primary.main }} />
               </IconButton>
             </Stack>
@@ -92,6 +101,9 @@ const Group = () => {
           </Stack>
         </Box>
       </Stack>
+      {openDialog && (
+        <CreateGroup open={openDialog} handleClose={handleCloseDialog} />
+      )}
     </>
   );
 };
