@@ -10,11 +10,11 @@ import {
 // hooks
 import useSettings from "../hooks/useSettings.js";
 //
-import palette from "./palette";
-import typography from "./typography";
-import breakpoints from "./breakpoints";
-import componentsOverride from "./overrides";
-import shadows, { customShadows } from "./shadows";
+import palette from "./palette.js";
+import typography from "./typography.js";
+import breakpoints from "./breakpoints.js";
+import componentsOverride from "./overrides/index.js";
+import shadows, { customShadows } from "./shadows.js";
 
 // ----------------------------------------------------------------------
 
