@@ -1,5 +1,11 @@
+import DashboardLayout from "./Layouts/Dashboard";
+
 function App() {
-  return <h1>Hello</h1>;
+  return (
+    <>
+      <DashboardLayout />
+    </>
+  );
 }
 
 export default App;
