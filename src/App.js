@@ -1,10 +1,18 @@
-import DashboardLayout from "./Layouts/Dashboard";
+// routes
+import Router from "./routes";
+// theme
+import ThemeProvider from './theme';
+// components
+import ThemeSettings from './components/settings';
 
 function App() {
   return (
-    <>
-      <DashboardLayout />
-    </>
+    <ThemeProvider>
+      <ThemeSettings>
+        {" "}
+        <Router />{" "}
+      </ThemeSettings>
+    </ThemeProvider>
   );
 }
 
