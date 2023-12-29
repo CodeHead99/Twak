@@ -4,7 +4,6 @@ import {
   Divider,
   IconButton,
   Stack,
-  Switch,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -12,19 +11,14 @@ import { Outlet } from "react-router-dom";
 import logo from "../../assets/Images/logo.ico";
 import { Nav_Buttons, Nav_Setting } from "../../data";
 import AntSwitch from "../../components/AntSwitch";
+import useSettings from "../../hooks/useSettings";
+import { faker } from "@faker-js/faker";
 
 const DashboardLayout = () => {
-  const [switchValue, setSwitchValue] = useState(true);
+  const [selected, setSelected] = useState(0);
   const theme = useTheme();
   const mode = theme.palette.mode;
-  console.log(theme);
-
-  const handleClick = (event) => {
-    console.log(event);
-  };
-  const switchHandler = (event) => {
-    console.log(event.target.checked);
-  };
+  const { onToggleMode } = useSettings();
   return (
     <>
       <Box
@@ -37,40 +31,95 @@ const DashboardLayout = () => {
         }}
         p={2}
       >
-        <Stack alignItems={"center"} sx={{ width: "100%" }}>
-          <Box
-            sx={{
-              background: theme.palette.primary.main,
-              borderRadius: 1.5,
-              width: 64,
-              height: 64,
-            }}
-          >
-            <img src={logo} alt="Twak App" />
-          </Box>
-          <Stack spacing={2} my={2}>
-            {Nav_Buttons.map((el) => (
-              <Box onClick={handleClick}>
-                <IconButton>{el.icon}</IconButton>
-              </Box>
-            ))}
-          </Stack>
-          <Divider height={3} width={64} />
-          <Stack mt={2}>
-            {Nav_Setting.map((el) => (
-              <Box>
-                <IconButton>{el.icon}</IconButton>
-              </Box>
-            ))}
-          </Stack>
+        <Stack
+          alignItems={"center"}
+          sx={{ width: "100%" }}
+          justifyContent={"space-between"}
+          direction={"column"}
+          spacing={3}
+          height={"100%"}
+        >
+          <Stack alignItems={"center"} spacing={4}>
+            <Box
+              sx={{
+                background: theme.palette.primary.main,
+                borderRadius: 1.5,
+                width: 64,
+                height: 64,
+              }}
+            >
+              <img src={logo} alt="Twak App" />
+            </Box>
+            <Stack
+              spacing={3}
+              sx={{ width: "max-content" }}
+              direction={"column"}
+              alignItems={"center"}
+            >
+              {Nav_Buttons.map((el) =>
+                el.index === selected ? (
+                  <Box
+                    sx={{
+                      backgroundColor: theme.palette.primary.main,
+                      borderRadius: 1.5,
+                    }}
+                  >
+                    <IconButton
+                      key={el.index}
+                      sx={{ width: "max-content", color: "#fff" }}
+                    >
+                      {el.icon}
+                    </IconButton>
+                  </Box>
+                ) : (
+                  <IconButton
+                    key={el.index}
+                    sx={{ width: "max-content", color: "#000" }}
+                    onClick={() => setSelected(el.index)}
+                  >
+                    {el.icon}
+                  </IconButton>
+                )
+              )}
+              <Divider height={3} width={64} />
 
-          <Stack>
+              {Nav_Setting.map((el) =>
+                selected === 3 ? (
+                  <Box
+                    sx={{
+                      backgroundColor: theme.palette.primary.main,
+                      borderRadius: 1.5,
+                    }}
+                  >
+                    <IconButton
+                      key={el.index}
+                      sx={{ width: "max-content", color: "#fff" }}
+                    >
+                      {el.icon}
+                    </IconButton>
+                  </Box>
+                ) : (
+                  <IconButton
+                    key={el.index}
+                    sx={{ width: "max-content", color: "#000" }}
+                    onClick={() => {
+                      setSelected(3);
+                    }}
+                  >
+                    {el.icon}
+                  </IconButton>
+                )
+              )}
+            </Stack>
+          </Stack>
+          <Stack spacing={4}>
             <AntSwitch
               defaultChecked
-              value={switchValue}
-              onClick={switchHandler}
+              onChange={() => {
+                onToggleMode();
+              }}
             />
-            <Avatar alt="Profile">A</Avatar>
+            <Avatar alt="Profile" src={faker.image.avatar()} />
           </Stack>
         </Stack>
       </Box>
