@@ -1,15 +1,16 @@
 import { Box, Typography, Stack, IconButton, InputBase } from "@mui/material";
-import { CircleDashed } from "phosphor-react";
+import { ArchiveBox, CircleDashed, MagnifyingGlass } from "phosphor-react";
 import { styled, alpha } from "@mui/material/styles";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: 20,
-  width: "100%",
-  backgroundColor: alpha(theme.palette.backgroundColor.paper, 1),
+  backgroundColor: alpha(theme.palette.background.paper, 1),
   marginRight: theme.spacing(2),
   marginLeft: 0,
+  width: "100%",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -26,6 +27,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     width: "100%",
   },
@@ -51,6 +53,23 @@ const Chats = () => {
           <IconButton>
             <CircleDashed />
           </IconButton>
+        </Stack>
+        <Stack sx={{ width: "100%" }}>
+          <Search>
+            <SearchIconWrapper>
+              <MagnifyingGlass color="#709CE6" />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+        </Stack>
+        <Stack direction={"row"} alignItems={"center"}>
+          <IconButton>
+            <ArchiveBox />
+          </IconButton>
+          <Link>Archived</Link>
         </Stack>
       </Stack>
     </Box>
