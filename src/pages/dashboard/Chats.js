@@ -88,7 +88,7 @@ const Chats = () => {
           <Typography variant="subtitle">Pinned</Typography>
           {ChatList.filter((chat) => chat.pinned === true).map((item) => (
             <Box>
-              <Stack>
+              <Stack direction={"row"} justifyContent={"space-between"}>
                 <Avatar src={item.img} />
                 <Stack>
                   <Typography variant="subtitle2">{item.name}</Typography>
@@ -96,7 +96,25 @@ const Chats = () => {
                 </Stack>
                 <Stack>
                   <Typography>{item.time}</Typography>
-                  <Badge badgeContent={4} />
+                  <Badge badgeContent={4} color="primary" />
+                </Stack>
+              </Stack>
+            </Box>
+          ))}
+        </Stack>
+        <Stack>
+          <Typography variant="subtitle">All Chats</Typography>
+          {ChatList.filter((chat) => chat.pinned !== true).map((item) => (
+            <Box>
+              <Stack direction={"row"}>
+                <Avatar src={item.img} />
+                <Stack>
+                  <Typography variant="subtitle2">{item.name}</Typography>
+                  <Typography variant="body">{item.msg}</Typography>
+                </Stack>
+                <Stack>
+                  <Typography>{item.time}</Typography>
+                  <Badge badgeContent={4} color="primary" />
                 </Stack>
               </Stack>
             </Box>
