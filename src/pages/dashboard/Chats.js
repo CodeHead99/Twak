@@ -1,6 +1,18 @@
-import { Box, Typography, Stack, IconButton, InputBase } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Stack,
+  IconButton,
+  InputBase,
+  Button,
+  Divider,
+  Avatar,
+  Badge,
+} from "@mui/material";
 import { ArchiveBox, CircleDashed, MagnifyingGlass } from "phosphor-react";
 import { styled, alpha } from "@mui/material/styles";
+import { ChatList } from "../../data";
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -69,7 +81,26 @@ const Chats = () => {
           <IconButton>
             <ArchiveBox />
           </IconButton>
-          <Link>Archived</Link>
+          <Button variant="text">Archived</Button>
+        </Stack>
+        <Divider />
+        <Stack>
+          <Typography variant="subtitle">Pinned</Typography>
+          {ChatList.filter((chat) => chat.pinned === true).map((item) => (
+            <Box>
+              <Stack>
+                <Avatar src={item.img} />
+                <Stack>
+                  <Typography variant="subtitle2">{item.name}</Typography>
+                  <Typography variant="body">{item.msg}</Typography>
+                </Stack>
+                <Stack>
+                  <Typography>{item.time}</Typography>
+                  <Badge badgeContent={4} />
+                </Stack>
+              </Stack>
+            </Box>
+          ))}
         </Stack>
       </Stack>
     </Box>
