@@ -44,6 +44,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: "100%",
   },
 }));
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
+
 const Chats = () => {
   return (
     <Box
@@ -84,37 +114,69 @@ const Chats = () => {
           <Button variant="text">Archived</Button>
         </Stack>
         <Divider />
-        <Stack>
-          <Typography variant="subtitle">Pinned</Typography>
+        <Stack spacing={4}>
+          <Typography variant="subtitle" mt={4}>
+            Pinned
+          </Typography>
           {ChatList.filter((chat) => chat.pinned === true).map((item) => (
-            <Box>
+            <Box
+              onClick={() => {
+                console.log(item.id);
+              }}
+            >
               <Stack direction={"row"} justifyContent={"space-between"}>
-                <Avatar src={item.img} />
+                {item.online === true ? (
+                  <StyledBadge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    variant="dot"
+                  >
+                    <Avatar alt={item.name} src={item.img} />
+                  </StyledBadge>
+                ) : (
+                  <Avatar alt={item.name} src={item.img} />
+                )}
                 <Stack>
                   <Typography variant="subtitle2">{item.name}</Typography>
                   <Typography variant="body">{item.msg}</Typography>
                 </Stack>
                 <Stack>
                   <Typography>{item.time}</Typography>
-                  <Badge badgeContent={4} color="primary" />
+                  {item.unread !== 0 && (
+                    <Badge badgeContent={item.unread} color="primary" />
+                  )}
                 </Stack>
               </Stack>
             </Box>
           ))}
         </Stack>
-        <Stack>
-          <Typography variant="subtitle">All Chats</Typography>
+        <Stack spacing={4}>
+          <Typography variant="subtitle" mt={4}>
+            All Chats
+          </Typography>
           {ChatList.filter((chat) => chat.pinned !== true).map((item) => (
             <Box>
               <Stack direction={"row"}>
-                <Avatar src={item.img} />
+                {item.online === true ? (
+                  <StyledBadge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    variant="dot"
+                  >
+                    <Avatar alt={item.name} src={item.img} />
+                  </StyledBadge>
+                ) : (
+                  <Avatar alt={item.name} src={item.img} />
+                )}
                 <Stack>
                   <Typography variant="subtitle2">{item.name}</Typography>
                   <Typography variant="body">{item.msg}</Typography>
                 </Stack>
                 <Stack>
                   <Typography>{item.time}</Typography>
-                  <Badge badgeContent={4} color="primary" />
+                  {item.unread !== 0 && (
+                    <Badge badgeContent={item.unread} color="primary" />
+                  )}
                 </Stack>
               </Stack>
             </Box>
