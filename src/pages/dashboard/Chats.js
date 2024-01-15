@@ -14,7 +14,7 @@ import { styled, alpha, useTheme } from "@mui/material/styles";
 import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 import React from "react";
-import { Link } from "react-router-dom";
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
