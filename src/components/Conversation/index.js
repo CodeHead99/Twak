@@ -2,6 +2,7 @@ import { Box, Stack, useTheme } from "@mui/material";
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import Message from "./Message";
 
 const Conversation = () => {
   const theme = useTheme();
@@ -10,7 +11,9 @@ const Conversation = () => {
       {/* ChatHeader */}
       <Header />
       {/* Messages */}
-      <Box sx={{ width: "100%", flexGrow: 1 }}></Box>
+      <Box sx={{ width: "100%", flexGrow: 1 }}>
+        <Message />
+      </Box>
 
       {/* chatFooter */}
       <Footer />
