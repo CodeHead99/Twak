@@ -11,7 +11,9 @@ const Conversation = () => {
       {/* ChatHeader */}
       <Header />
       {/* Messages */}
-      <Box sx={{ width: "100%", flexGrow: 1 }}>
+      <Box
+        sx={{ width: "100%", flexGrow: 1, height: "100%", overflow: "scroll" }}
+      >
         <Message />
       </Box>
 

@@ -2,7 +2,14 @@ import { Box } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
 import { Chat_History } from "../../data";
-import { MediaMsg, ReplyMsg, TextMsg, TimeLine } from "./MsgTypes";
+import {
+  DocMsg,
+  LinkMsg,
+  MediaMsg,
+  ReplyMsg,
+  TextMsg,
+  TimeLine,
+} from "./MsgTypes";
 
 const Message = () => {
   return (
@@ -18,11 +25,11 @@ const Message = () => {
                 case "img":
                   return <MediaMsg el={el} />;
                 case "doc":
-                  return <img src={el.img} alt="img" />;
-                  break;
+                  return <DocMsg el={el} />;
+
                 case "link":
-                  return <img src={el.img} alt="img" />;
-                  break;
+                  return <LinkMsg el={el} />;
+
                 case "reply":
                   return <ReplyMsg el={el} />;
 
