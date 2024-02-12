@@ -2,6 +2,8 @@ import React from "react";
 import Chats from "./Chats";
 import { Stack, Box, useTheme } from "@mui/material";
 import Conversation from "../../components/Conversation";
+import { Sidebar } from "phosphor-react";
+import SharedMessages from "../../components/SharedMessages";
 
 const GeneralApp = () => {
   const theme = useTheme();
@@ -22,6 +24,20 @@ const GeneralApp = () => {
       >
         <Conversation />
       </Box>
+      {/* {sidebar.open &&
+        (() => {
+          switch (sidebar.type) {
+            case "CONTACT":
+              return <Contact />;
+            case "STARRED":
+              return;
+            case "SHARED":
+              return <SharedMessages />;
+            default:
+              break;
+          }
+        })} */}
+      <SharedMessages />
     </Stack>
   );
 };
