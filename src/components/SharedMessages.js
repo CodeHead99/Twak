@@ -9,9 +9,12 @@ import {
   Tab,
   Grid,
 } from "@mui/material";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { CaretLeft } from "phosphor-react";
 import React from "react";
+import { SHARED_DOCS, SHARED_LINKS } from "../data";
+import { DocMsg, LinkMsg } from "./Conversation/MsgTypes";
+import { UpdateSidebarType } from "../redux/slices/app";
 
 const SharedMessages = () => {
   const theme = useTheme();
@@ -20,7 +23,7 @@ const SharedMessages = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   return (
     <Box sx={{ width: 320, height: "100vh" }}>
       <Stack sx={{ height: "100%" }}>
@@ -40,9 +43,7 @@ const SharedMessages = () => {
             alignItems={"center"}
             spacing={3}
           >
-            <IconButton
-            // onClick={() => dispatch(UpdateSidebarType("CONTACT"))}
-            >
+            <IconButton onClick={() => dispatch(UpdateSidebarType("CONTACT"))}>
               <CaretLeft />
             </IconButton>
             <Typography variant="subtitle2">Shared Messages</Typography>
@@ -52,6 +53,7 @@ const SharedMessages = () => {
           sx={{ px: 2, pt: 2 }}
           value={value}
           onChange={handleChange}
+          centered
           aria-label="basic tabs example"
         >
           <Tab label="Media" />
@@ -66,7 +68,7 @@ const SharedMessages = () => {
             overflowY: "scroll",
           }}
           p={3}
-          spacing={3}
+          spacing={value === 1 ? 1 : 3}
         >
           {(() => {
             switch (value) {
@@ -86,9 +88,9 @@ const SharedMessages = () => {
                   </Grid>
                 );
               case 1:
-                return "";
+                return SHARED_LINKS.map((link) => <LinkMsg el={link} />);
               case 2:
-                return "";
+                return SHARED_DOCS.map((doc) => <DocMsg el={doc} />);
               default:
                 break;
             }
