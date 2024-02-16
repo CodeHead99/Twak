@@ -8,6 +8,12 @@ import {
   Stack,
   ToggleButton,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
 } from "@mui/material";
 import React from "react";
 import {
@@ -22,14 +28,73 @@ import {
   X,
 } from "phosphor-react";
 import { useDispatch } from "react-redux";
-import { ToggleSidebar } from "../../redux/slices/app";
+import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
 import { faker } from "@faker-js/faker";
-import AntSwitch from "../AntSwitch";
-
+import AntSwitch from "./AntSwitch";
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+const BlockDialog = ({ open, handleClose }) => {
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>Block This contact</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Are you sure you want to block this contact?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Confirm</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+const DeleteDialog = ({ open, handleClose }) => {
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>Delete This chat</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Are you sure you want to delete this chat?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Confirm</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 const Contact = () => {
   const theme = useTheme();
-
+  const [blockOpen, setBlockOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const handleCloseBlock = () => {
+    setBlockOpen(false);
+  };
+  const handleCloseDelete = () => {
+    setDeleteOpen(false);
+  };
+  const handleClickOpenBlock = () => {
+    setBlockOpen(true);
+  };
+  const handleClickOpenDelete = () => {
+    setDeleteOpen(true);
+  };
   return (
     <Box sx={{ width: 320, height: "100vh" }}>
       <Stack sx={{ height: "100%" }}>
@@ -119,7 +184,14 @@ const Contact = () => {
             justifyContent={"space-between"}
           >
             <Typography variant="subtitle">Media, Links & Docs</Typography>
-            <Button endIcon={<CaretRight></CaretRight>}>401</Button>
+            <Button
+              endIcon={<CaretRight></CaretRight>}
+              onClick={() => {
+                dispatch(UpdateSidebarType("SHARED"));
+              }}
+            >
+              401
+            </Button>
           </Stack>
           <Stack direction="row" spacing={2} alignItems="center">
             {[1, 2, 3].map((el) => (
@@ -138,7 +210,11 @@ const Contact = () => {
               <Star size={21} />
               <Typography variant="subtitle2">Starred Messages</Typography>
             </Stack>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                dispatch(UpdateSidebarType("STARRED"));
+              }}
+            >
               <CaretRight />
             </IconButton>
           </Stack>
@@ -166,15 +242,31 @@ const Contact = () => {
             </Stack>
           </Stack>
           <Stack direction={"row"} alignItems={"center"} spacing={2}>
-            <Button startIcon={<Prohibit />} fullWidth variant="outlined">
-                Block
+            <Button
+              startIcon={<Prohibit />}
+              fullWidth
+              variant="outlined"
+              onClick={handleClickOpenBlock}
+            >
+              Block
             </Button>
-            <Button startIcon={<Trash />}  fullWidth variant="outlined">
-                Delete
+            <Button
+              startIcon={<Trash />}
+              fullWidth
+              variant="outlined"
+              onClick={handleClickOpenDelete}
+            >
+              Delete
             </Button>
           </Stack>
         </Stack>
       </Stack>
+      {blockOpen && (
+        <BlockDialog open={blockOpen} handleClose={handleCloseBlock} />
+      )}
+      {deleteOpen && (
+        <DeleteDialog open={deleteOpen} handleClose={handleCloseDelete} />
+      )}
     </Box>
   );
 };
