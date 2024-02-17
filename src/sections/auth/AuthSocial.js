@@ -1,4 +1,4 @@
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import React from "react";
 
 const AuthSocial = () => {
@@ -14,6 +14,9 @@ const AuthSocial = () => {
       >
         OR
       </Divider>
+      <Stack direction={"row"}>
+
+      </Stack>
     </Box>
   );
 };
