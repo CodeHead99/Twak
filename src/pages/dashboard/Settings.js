@@ -78,7 +78,7 @@ const Settings = () => {
       icon: <Keyboard size={20} />,
       title: "Keyboard Shortcuts",
       onclick: handleOpenShortcuts,
-      // onclick: () => {},
+      // onclick: () => {},         //to be done later
     },
     {
       key: 7,
