@@ -40,7 +40,7 @@ const GeneralApp = () => {
             default:
               break;
           }
-        })}
+        })()}
     </Stack>
   );
 };
