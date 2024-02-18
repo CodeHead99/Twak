@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 
 // layouts
 import DashboardLayout from "../layouts/dashboard";
+import MainLayout from "../layouts/main";
 
 // config
 import { DEFAULT_PATH } from "../config";
@@ -19,13 +20,18 @@ const Loadable = (Component) => (props) => {
 export default function Router() {
   return useRoutes([
     {
+      path: "/auth",
+      element: <MainLayout />,
+      children: [{ element: <LoginPage />, path: "login" }],
+    },
+    {
       path: "/",
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
         { path: "app", element: <GeneralApp /> },
         { path: "settings", element: <Settings />},
-        
+        { path: "group", element: <GroupPage /> },
         { path: "404", element: <Page404 /> },
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
@@ -35,8 +41,10 @@ export default function Router() {
 }
 
 const GeneralApp = Loadable(
-  lazy(() => import("../pages/dashboard/GeneralApp")),
+  lazy(() => import("../pages/dashboard/GeneralApp"))
 );
+const GroupPage = Loadable(lazy(() => import("../pages/dashboard/Group")));
+const LoginPage = Loadable(lazy(() => import("../pages/auth/Login")));
 const Settings = Loadable(
   lazy(() => import("../pages/dashboard/Settings")),
 );
