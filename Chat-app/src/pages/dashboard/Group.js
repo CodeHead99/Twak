@@ -17,8 +17,10 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from "../../components/Search";
+import CreateGroup from "../../sections/main/CreateGroup";
 
 const Group = () => {
+
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleCloseDialog = () => {
@@ -72,7 +74,10 @@ const Group = () => {
               <Typography variant="subtitle2" sx={{}} component={Link}>
                 Create New Group
               </Typography>
-              <IconButton onClick={handleOpenDialog}>
+              {/* <IconButton onClick={handleOpenDialog}> */}
+              <IconButton onClick={() => {
+                setOpenDialog(true);
+              }}>
                 <Plus style={{ color: theme.palette.primary.main }} />
               </IconButton>
             </Stack>
@@ -100,6 +105,7 @@ const Group = () => {
           </Stack>
         </Box>
       </Stack>
+      {openDialog && <CreateGroup open={openDialog} handleClose={handleCloseDialog} />}
     </>
   );
 };

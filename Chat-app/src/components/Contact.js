@@ -31,9 +31,11 @@ import { useDispatch } from "react-redux";
 import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
 import { faker } from "@faker-js/faker";
 import AntSwitch from "./AntSwitch";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 const BlockDialog = ({ open, handleClose }) => {
   return (
     <Dialog
@@ -80,20 +82,23 @@ const DeleteDialog = ({ open, handleClose }) => {
 };
 const Contact = () => {
   const theme = useTheme();
-  const [blockOpen, setBlockOpen] = React.useState(false);
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
+
+  const [openBlock, setOpenBlock] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+
   const dispatch = useDispatch();
+
   const handleCloseBlock = () => {
-    setBlockOpen(false);
+    setOpenBlock(false);
   };
   const handleCloseDelete = () => {
-    setDeleteOpen(false);
+    setOpenDelete(false);
   };
   const handleClickOpenBlock = () => {
-    setBlockOpen(true);
+    setOpenBlock(true);
   };
   const handleClickOpenDelete = () => {
-    setDeleteOpen(true);
+    setOpenDelete(true);
   };
   return (
     <Box sx={{ width: 320, height: "100vh" }}>
@@ -261,11 +266,11 @@ const Contact = () => {
           </Stack>
         </Stack>
       </Stack>
-      {blockOpen && (
-        <BlockDialog open={blockOpen} handleClose={handleCloseBlock} />
+      {openBlock && (
+        <BlockDialog open={openBlock} handleClose={handleCloseBlock} />
       )}
-      {deleteOpen && (
-        <DeleteDialog open={deleteOpen} handleClose={handleCloseDelete} />
+      {openDelete && (
+        <DeleteDialog open={openDelete} handleClose={handleCloseDelete} />
       )}
     </Box>
   );
