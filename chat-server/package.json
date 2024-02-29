@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/CodeHead99/Twak#readme",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

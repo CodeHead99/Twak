@@ -1,23 +1,26 @@
 const express = require("express"); //web framework for node.js
 
+const rountes = require("./routes/index");
+
 const morgan = require("morgan"); // http request logger middleware for node.js
 
 const rateLimit = require("express-rate-limit");
 
-const helmet = require("helmet"); 
+const helmet = require("helmet");
 
 const mongosanitize = require("express-mongo-sanitize");
 
 const bodyParser = require("body-parser");
 
-// const xss = require("xss");
-
 const cors = require("cors");
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-// app.use(xss());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 app.use(mongosanitize());
 
@@ -28,6 +31,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json({ limit: "10kb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,4 +50,10 @@ const limiter = rateLimit({
 
 app.use("/twak", limiter);
 
+//
+
+app.use(routes);
+
 module.exports = app;
+
+//
