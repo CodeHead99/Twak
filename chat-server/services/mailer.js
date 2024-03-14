@@ -1,40 +1,39 @@
-const sgMail = require("@sendgrid/mail");
-
-const dotenv = require("dotenv");
-
-dotenv.config({ path: "../config.env" });
-
-sgMail.setApiKey(process.env.SG_KEY);
-
+const nodemailer = require("nodemailer");
 const sendSGMail = async ({
   recipient,
   sender,
   subject,
   html,
-  text,
   attachments,
+  text,
 }) => {
   try {
-    const from = sender || "akshitasg08@gmail.com";
-
-    const msg = {
-      to: recipient, //email of recipient
-      from: from, // a verified sender
-      subject,
-      html: html,
+    // Create a Transporter to send emails
+    let transporter = nodemailer.createTransport({
+      host: "smtp-relay.brevo.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: "artvision1807@gmail.com",
+        pass: "xsmtpsib-5f52e0fcbd6474c3337955e397465a6b7ee01957b65804956a7a81a5e9937b59-fHn5dEgQqAbFY3PN",
+      },
+    });
+    // Send emails to users
+    let info = await transporter.sendMail({
+      from: sender,
+      to: recipient,
+      subject: subject,
       text: text,
-      attachments,
-    };
-
-    return sgMail.send(msg);
+    });
+    console.log("Email info: ", info);
+    return info;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
-
 exports.sendEmail = async (args) => {
   if (!process.env.NODE_ENV === "development") {
-    return new Promise.resolve();
+    return Promise.resolve();
   } else {
     return sendSGMail(args);
   }

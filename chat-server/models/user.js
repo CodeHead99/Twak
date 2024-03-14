@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   otp: {
-    type: Number,
+    type: String,
   },
   otp_expiry_time: {
     type: Date,
@@ -66,7 +66,7 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("otp")) return next();
 
   // Hash the otp with cost of 12
-  this.otp = await bcryptjs.hash(this.otp, 12);
+  this.otp = await bcrypt.hash(String(this.otp), 12);
 
   //console.log(this.otp.toString(), "FROM PRE SAVE HOOK");
 
@@ -75,10 +75,11 @@ userSchema.pre("save", async function (next) {
 
 userSchema.pre("save", async function (next) {
   // Only run this function if password was actually modified
+  console.log("otp hashed");
   if (!this.isModified("password")) return next();
 
   // Hash the otp with cost of 12
-  this.password = await bcryptjs.hash(this.otp, 12);
+  this.password = await bcrypt.hash(this.password, 12);
 
   //console.log(this.otp.toString(), "FROM PRE SAVE HOOK");
 
@@ -93,7 +94,7 @@ userSchema.methods.correctPassword = async function (
 };
 
 userSchema.methods.correctOTP = async function (candidateOTP, userOTP) {
-  return await bcrypt.compare(candidateOTP, userOTP);
+  return candidateOTP === userOTP;
 };
 
 userSchema.methods.createPasswordResetToken = function () {

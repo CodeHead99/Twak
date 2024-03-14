@@ -26,7 +26,6 @@ exports.register = async (req, res, next) => {
   //check if a verified user with given email exists
 
   const existing_user = await User.findOne({ email: email });
-
   if (existing_user && existing_user.verified) {
     // user with this email already exists, Please login
     res.status(400).json({
@@ -55,7 +54,7 @@ exports.register = async (req, res, next) => {
 
 exports.sendOTP = async (req, res, next) => {
   const { userId } = req;
-  
+  console.log(userId, "userId");
   const new_otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
     specialChars: false,
@@ -72,8 +71,8 @@ exports.sendOTP = async (req, res, next) => {
   // TODO send mail
 
   mailService.sendEmail({
-    from: "akshitasg08@gmail.com",
-    to: "chakitg1@gmail.com",
+    sender: "artvision1807@gmail.com",
+    recipient: "akshita.2507.sharma@gmail.com",
     subject: "OTP for Tawk",
     text: `Your OTP is ${new_otp}. This is valid for 10 Mins.`,
   });
@@ -88,40 +87,40 @@ exports.verifyOTP = async (req, res, next) => {
   // verify OTP and update user accordingly
 
   const { email, otp } = req.body;
-
+  console.log(otp);
   const user = await User.findOne({
     email,
     otp_expiry_time: { $gt: Date.now() },
   });
-
+  console.log(user);
   if (!user) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Email is invalid or OTP expired",
     });
   }
 
   if (!(await user.correctOTP(otp, user.otp))) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "OTP is incorrect",
     });
   }
 
   // OTP is correct
-
+  console.log(user.otp);
   user.verified = true;
   user.otp = undefined;
 
   await user.save({ new: true, validateModifiedOnly: true });
 
-  const token = signToken(userDoc._id);
+  const token = signToken(user._id);
 
   res.status(200).json({
     status: "success",
     message: "OTP verified Successfully!",
     token,
-    // user_id: user._id,
+    user_id: user._id,
   });
 };
 
@@ -131,27 +130,24 @@ exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Both email and password are required",
     });
   }
 
-  const userDoc = await User.findOne({ email: email }).select("+password");
+  const user = await User.findOne({ email: email }).select("+password");
 
-  if (
-    !userDoc ||
-    !(await userDoc.correctPassword(password, userDoc.password))
-  ) {
-    res.status(400).json({
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return res.status(400).json({
       status: "error",
       message: "Email is incorrect",
     });
   }
 
-  const token = signToken(userDoc._id);
+  const token = signToken(user._id);
 
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
     message: "Logged in Successfully",
     token,
@@ -224,13 +220,18 @@ exports.forgotPassword = async (req, res, next) => {
 
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();
-
+  await user.save({ validateBeforeSave: false });
   const resetURL = `http://localhost:3000/auth/reset-password?code=${resetToken}`;
 
   // 3) Send it to user's email
   try {
     // TODO => Send Email with this Reset URL to user's email address
-
+    mailService.sendEmail({
+      from: "shreyanshshah242@gmail.com",
+      to: user.email,
+      subject: "Reset Password",
+    });
+    console.log(resetToken);
     res.status(200).json({
       status: "success",
       message: "Reset Password link sent to email!",
@@ -253,7 +254,7 @@ exports.resetPassword = async (req, res, next) => {
 
   const hashedToken = crypto
     .createHash("sha256")
-    .update(req.params.token)
+    .update(req.body.token)
     .digest("hex");
 
   const user = await User.findOne({
@@ -283,7 +284,7 @@ exports.resetPassword = async (req, res, next) => {
 
   // TODO => send an email to user informing about password reset
 
-  const token = signToken(userDoc._id);
+  const token = signToken(user._id);
 
   res.status(200).json({
     status: "success",
