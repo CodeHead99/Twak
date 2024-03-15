@@ -1,6 +1,6 @@
 const express = require("express"); //web framework for node.js
 
-const rountes = require("./routes/index");
+const routes = require("./routes/index");
 
 const morgan = require("morgan"); // http request logger middleware for node.js
 
