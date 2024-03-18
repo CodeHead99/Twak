@@ -11,8 +11,8 @@ import StyledBadge from "../StyledBadge";
 import { faker } from "@faker-js/faker";
 import React from "react";
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
-import { dispatch } from "../../redux/store";
-import { ToggleSidebar, toggleSidebar } from "../../redux/slices/app";
+
+import { ToggleSidebar } from "../../redux/slices/app";
 import { useDispatch } from "react-redux";
 
 const Header = () => {

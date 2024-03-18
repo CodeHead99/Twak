@@ -39,13 +39,7 @@ const CreateGroupForm = ({ handleClose }) => {
     defaultValues,
   });
 
-  const {
-    reset,
-    watch,
-    setError,
-    handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful, isValid },
-  } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (data) => {
     try {
@@ -95,9 +89,9 @@ const CreateGroup = ({ open, handleClose }) => {
       sx={{ p: 4 }}
     >
       {/* Title */}
-      <DialogTitle sx={{mb: 3}}>Create New Group</DialogTitle>
+      <DialogTitle sx={{ mb: 3 }}>Create New Group</DialogTitle>
       {/* Content */}
-      <DialogContent >
+      <DialogContent>
         {/* Form */}
         <CreateGroupForm handleClose={handleClose} />
       </DialogContent>

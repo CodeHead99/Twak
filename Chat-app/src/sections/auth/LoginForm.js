@@ -14,10 +14,12 @@ import {
 } from "@mui/material";
 import { RhfTextField } from "../../components/hook-form";
 import { Eye, EyeSlash } from "phosphor-react";
+import { LoginUser } from "../../redux/slices/auth";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useDispatch();
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .required("Email is required")
@@ -39,12 +41,14 @@ const LoginForm = () => {
     reset,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors },
   } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     try {
       // submit the form
+
+      dispatch(LoginUser(data));
     } catch (error) {
       console.log(error);
       reset();

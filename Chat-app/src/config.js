@@ -1,9 +1,10 @@
 // @mui
-import { enUS, frFR, zhCN, viVN, arSD } from '@mui/material/locale';
+import { enUS, frFR, zhCN, viVN, arSD } from "@mui/material/locale";
 
 // routes
 import { PATH_DASHBOARD } from "./routes/paths";
 
+export const BASE_URL = "http://localhost:3001";
 export const defaultSettings = {
   themeMode: "light",
   themeDirection: "ltr",
@@ -25,40 +26,38 @@ export const NAVBAR = {
 
 export const allLangs = [
   {
-    label: 'English',
-    value: 'en',
+    label: "English",
+    value: "en",
     systemValue: enUS,
-    icon: '/assets/icons/flags/ic_flag_en.svg',
+    icon: "/assets/icons/flags/ic_flag_en.svg",
   },
   {
-    label: 'French',
-    value: 'fr',
+    label: "French",
+    value: "fr",
     systemValue: frFR,
-    icon: '/assets/icons/flags/ic_flag_fr.svg',
+    icon: "/assets/icons/flags/ic_flag_fr.svg",
   },
   {
-    label: 'Vietnamese',
-    value: 'vn',
+    label: "Vietnamese",
+    value: "vn",
     systemValue: viVN,
-    icon: '/assets/icons/flags/ic_flag_vn.svg',
+    icon: "/assets/icons/flags/ic_flag_vn.svg",
   },
   {
-    label: 'Chinese',
-    value: 'cn',
+    label: "Chinese",
+    value: "cn",
     systemValue: zhCN,
-    icon: '/assets/icons/flags/ic_flag_cn.svg',
+    icon: "/assets/icons/flags/ic_flag_cn.svg",
   },
   {
-    label: 'Arabic (Sudan)',
-    value: 'ar',
+    label: "Arabic (Sudan)",
+    value: "ar",
     systemValue: arSD,
-    icon: '/assets/icons/flags/ic_flag_sa.svg',
+    icon: "/assets/icons/flags/ic_flag_sa.svg",
   },
 ];
 
 export const defaultLang = allLangs[0]; // English
-
-
 
 // DEFAULT ROOT PATH
 export const DEFAULT_PATH = PATH_DASHBOARD.general.app; // as '/app'
