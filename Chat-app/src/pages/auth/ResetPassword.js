@@ -14,7 +14,7 @@ const ResetPassword = () => {
         <Typography sx={{ color: "text.secondary", mb: 5 }}>
           Please enter the email address associated with your account and we
           will email you a link to rest your password.
-        </Typography> 
+        </Typography>
 
         {/* Reset Password Form */}
 
