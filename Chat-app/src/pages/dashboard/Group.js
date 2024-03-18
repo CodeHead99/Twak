@@ -20,15 +20,12 @@ import {
 import CreateGroup from "../../sections/main/CreateGroup";
 
 const Group = () => {
-
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
+
   const theme = useTheme();
   return (
     <>
@@ -75,9 +72,11 @@ const Group = () => {
                 Create New Group
               </Typography>
               {/* <IconButton onClick={handleOpenDialog}> */}
-              <IconButton onClick={() => {
-                setOpenDialog(true);
-              }}>
+              <IconButton
+                onClick={() => {
+                  setOpenDialog(true);
+                }}
+              >
                 <Plus style={{ color: theme.palette.primary.main }} />
               </IconButton>
             </Stack>
@@ -105,7 +104,9 @@ const Group = () => {
           </Stack>
         </Box>
       </Stack>
-      {openDialog && <CreateGroup open={openDialog} handleClose={handleCloseDialog} />}
+      {openDialog && (
+        <CreateGroup open={openDialog} handleClose={handleCloseDialog} />
+      )}
     </>
   );
 };

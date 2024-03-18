@@ -6,7 +6,6 @@ import {
   Divider,
   IconButton,
   Stack,
-  ToggleButton,
   Typography,
   Dialog,
   DialogActions,
@@ -18,7 +17,6 @@ import {
 import React from "react";
 import {
   Bell,
-  Camera,
   CaretRight,
   Phone,
   Prohibit,
