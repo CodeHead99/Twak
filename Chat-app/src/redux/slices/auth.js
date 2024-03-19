@@ -41,7 +41,53 @@ export function LoginUser(formValues) {
         );
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+    }
+  };
+}
+
+export function LogOutUser(formValues) {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.signOut());
+  };
+}
+
+export function ForgotPassword(formValues) {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.post(
+        "/auth/forgot-password",
+        { ...formValues },
+        { header: { "Content-Type": "application/json" } }
+      );
+      if (res.status === 200) {
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+}
+
+export function NewPassword(formValues) {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.post(
+        "/auth/reset-password",
+        { ...formValues },
+        { header: { "Content-Type": "application/json" } }
+      );
+      if (res.status === 200) {
+        console.log(res);
+        dispatch(
+          slice.actions.logIn({
+            isLoggedIn: true,
+            token: res.data.token,
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
     }
   };
 }

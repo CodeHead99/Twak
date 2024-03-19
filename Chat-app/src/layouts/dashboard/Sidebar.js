@@ -15,6 +15,8 @@ import AntSwitch from "../../components/AntSwitch";
 import useSettings from "../../hooks/useSettings";
 import { faker } from "@faker-js/faker";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { LogOutUser } from "../../redux/slices/auth";
 
 const getPath = (index) => {
   switch (index) {
@@ -56,7 +58,7 @@ const Sidebar = () => {
   const [selected, setSelected] = useState(0);
   const theme = useTheme();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const mode = theme.palette.mode;
   const { onToggleMode } = useSettings();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -205,15 +207,14 @@ const Sidebar = () => {
             <Stack spacing={1} px={1}>
               {Profile_Menu.map((el, idx) => {
                 return (
-                  <MenuItem
-                    // key={idx}
-                    onClick={() => {
-                      handleClick();
-                    }}
-                  >
+                  <MenuItem key={idx} onClick={handleClose}>
                     <Stack
                       onClick={() => {
-                        navigate(getMenuPath(idx));
+                        if (idx === 2) {
+                          dispatch(LogOutUser());
+                        } else {
+                          navigate(getMenuPath(idx));
+                        }
                       }}
                       sx={{ width: 100 }}
                       direction={"row"}
