@@ -14,8 +14,8 @@ const sendSGMail = async ({
       port: 587,
       secure: false,
       auth: {
-        user: "artvision1807@gmail.com",
-        pass: "xsmtpsib-5f52e0fcbd6474c3337955e397465a6b7ee01957b65804956a7a81a5e9937b59-fHn5dEgQqAbFY3PN",
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS,
       },
     });
     // Send emails to users
@@ -24,6 +24,7 @@ const sendSGMail = async ({
       to: recipient,
       subject: subject,
       text: text,
+      html: html,
     });
     console.log("Email info: ", info);
     return info;

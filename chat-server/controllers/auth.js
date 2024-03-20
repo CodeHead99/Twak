@@ -227,9 +227,13 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     // TODO => Send Email with this Reset URL to user's email address
     mailService.sendEmail({
-      from: "shreyanshshah242@gmail.com",
+      from: "artvision1807@gmail.com",
       to: user.email,
       subject: "Reset Password",
+      text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+          Please click on the following link, or paste this into your browser to complete the process:\n\n
+          ${resetURL}\n\n
+          If you did not request this, please ignore this email and your password will remain unchanged.\n`,
     });
     console.log(resetToken);
     res.status(200).json({
