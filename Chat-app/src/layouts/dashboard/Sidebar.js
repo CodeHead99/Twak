@@ -16,7 +16,7 @@ import useSettings from "../../hooks/useSettings";
 import { faker } from "@faker-js/faker";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { LogOutUser } from "../../redux/slices/auth";
+import { LogoutUser } from "../../redux/slices/auth";
 
 const getPath = (index) => {
   switch (index) {
@@ -211,7 +211,7 @@ const Sidebar = () => {
                     <Stack
                       onClick={() => {
                         if (idx === 2) {
-                          dispatch(LogOutUser());
+                          dispatch(LogoutUser());
                         } else {
                           navigate(getMenuPath(idx));
                         }
