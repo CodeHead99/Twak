@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import axios from "../../utils/axios";
 //
 
 const initialState = {
@@ -12,6 +12,9 @@ const initialState = {
     severity: null,
     message: null,
   },
+  users: [],
+  friends: [],
+  friendRequests: [],
 };
 
 const slice = createSlice({
@@ -30,6 +33,15 @@ const slice = createSlice({
       state.snackbar.open = true;
       state.snackbar.severity = action.payload.severity;
       state.snackbar.message = action.payload.message;
+    },
+    updateUsers(state, action) {
+      state.users = action.payload.users;
+    },
+    updateFriends(state, action) {
+      state.friends = action.payload.friends;
+    },
+    updateFriendRequests(state, action) {
+      state.friendRequests = action.payload.requests;
     },
     closeSnackBar(state) {
       console.log("This is getting executed");
@@ -77,3 +89,73 @@ export const showSnackbar =
       dispatch(slice.actions.closeSnackBar());
     }, 4000);
   };
+
+export function FetchUsers() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/user/get-users",
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(slice.actions.updateUsers({ users: response.data.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+export function FetchFriends() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/user/get-friends",
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(slice.actions.updateFriends({ friends: response.data.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+export function FetchFriendRequests() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/user/get-friend-requests",
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(
+          slice.actions.updateFriendRequests({ requests: response.data.data })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
