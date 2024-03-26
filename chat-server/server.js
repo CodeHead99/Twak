@@ -2,6 +2,7 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 dotenv.config({ path: "./config.env" });
+const { Server } = require("socket.io");
 
 process.on("uncaughtException", (err) => {
   console.log(err);
@@ -9,8 +10,16 @@ process.on("uncaughtException", (err) => {
 });
 
 const http = require("http");
-
+const User = require("./models/user");
 const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "PATCH", "POST", "PUT", "DELETE"],
+    credentials: true,
+  },
+});
 
 const DB = process.env.DBURI.replace("<PASSWORD>", process.env.DBPASSWORD);
 
@@ -34,6 +43,20 @@ server.listen(port, () => {
   console.log(`listening on ${port}`);
 });
 
+io.on("connection", async (socket) => {
+  const user_id = socket.handshake.query["user_id"];
+  const socket_id = socket.id;
+  console.log(`Connecting to ${socket_id}`);
+  if (user_id) {
+    await User.findByIdAndUpdate(user_id, { socket_id });
+  }
+  socket.on("friend_request", async (data) => {
+    console.log(data.to);
+
+    const to = await User.findById(data.to);
+    io.to(to.socket_id).emit("new_friend_request", {});
+  });
+});
 process.on("unhandledRejection", (err) => {
   console.log(err);
   server.close(() => {
