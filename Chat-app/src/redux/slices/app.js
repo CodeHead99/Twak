@@ -155,8 +155,9 @@ export function FetchFriendRequests() {
       )
       .then((response) => {
         console.log(response);
+
         dispatch(
-          slice.actions.updateFriendRequests({ requests: response.data.data })
+          slice.actions.updateFriendRequests({ requests: response?.data?.data })
         );
       })
       .catch((err) => {

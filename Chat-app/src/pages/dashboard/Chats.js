@@ -20,14 +20,21 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatElement from "../../components/ChatElement";
 import Friends from "../../sections/main/Friends";
+import { socket } from "../../socket";
+import { useDispatch, useSelector } from "react-redux";
+import { FetchDirectConversations } from "../../redux/slices/conversations";
 
+const user_id = window.localStorage.getItem("user_id");
 const Chats = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
-
+  const { conversations } = useSelector(
+    (state) => state.conversation.direct_chat
+  );
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -35,6 +42,14 @@ const Chats = () => {
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
+  useEffect(() => {
+    socket.emit("get_direct_conversations", { user_id }, (data) => {
+      console.log(data); // this data is the list of conversations
+      // dispatch action
+
+      dispatch(FetchDirectConversations({ conversations: data }));
+    });
+  }, []);
   return (
     <>
       <Box
@@ -94,14 +109,14 @@ const Chats = () => {
             sx={{ flexGrow: 1, overflow: "scroll", height: "100%" }}
           >
             <SimpleBarStyle timeout={500} clickOnTrack={false}>
-              <Stack spacing={2.4}>
+              {/* <Stack spacing={2.4}>
                 <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   Pinned
                 </Typography>
                 {ChatList.filter((chat) => chat.pinned === true).map((item) => (
                   <ChatElement chatData={item} />
                 ))}
-              </Stack>
+              </Stack> */}
               <Stack spacing={2.4}>
                 <Typography
                   variant="subtitle2"
@@ -110,11 +125,11 @@ const Chats = () => {
                 >
                   All Chats
                 </Typography>
-                {ChatList.filter((chat) => chat.pinned === false).map(
-                  (item) => (
+                {conversations
+                  .filter((chat) => chat.pinned === false)
+                  .map((item) => (
                     <ChatElement chatData={item} />
-                  )
-                )}
+                  ))}
               </Stack>
             </SimpleBarStyle>
           </Stack>
