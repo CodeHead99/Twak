@@ -39,7 +39,7 @@ exports.getUsers = async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    date: remaining_users,
+    data: remaining_users,
     message: "Users Retrieved Successfully",
   });
 };

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import axios from "../../utils/axios";
-import { showSnackbar } from "./app";
+import { SelectConversation, showSnackbar } from "./app";
 
 // ----------------------------------------------------------------------
 
@@ -168,6 +168,7 @@ export function LogoutUser() {
   return async (dispatch, getState) => {
     window.localStorage.removeItem("user_id");
     dispatch(slice.actions.signOut());
+    dispatch(SelectConversation({ room_id: null }));
   };
 }
 
