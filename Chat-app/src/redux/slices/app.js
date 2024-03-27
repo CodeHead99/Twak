@@ -15,6 +15,8 @@ const initialState = {
   users: [],
   friends: [],
   friendRequests: [],
+  chat_type: null,
+  room_id: null,
 };
 
 const slice = createSlice({
@@ -44,9 +46,12 @@ const slice = createSlice({
       state.friendRequests = action.payload.requests;
     },
     closeSnackBar(state) {
-      console.log("This is getting executed");
       state.snackbar.open = false;
       state.snackbar.message = null;
+    },
+    selectConversation(state, action) {
+      state.chat_type = "individual";
+      state.room_id = action.payload.room_id;
     },
   },
 });
@@ -159,3 +164,8 @@ export function FetchFriendRequests() {
       });
   };
 }
+export const SelectConversation = ({ room_id }) => {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.selectConversation({ room_id }));
+  };
+};

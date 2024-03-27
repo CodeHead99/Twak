@@ -116,6 +116,10 @@ const Sidebar = () => {
                 >
                   <IconButton
                     key={el.index}
+                    onClick={() => {
+                      setSelected(el.index);
+                      navigate(getPath(el.index));
+                    }}
                     sx={{ width: "max-content", color: "#fff" }}
                   >
                     {el.icon}
