@@ -11,6 +11,7 @@ process.on("uncaughtException", (err) => {
 
 const http = require("http");
 const User = require("./models/user");
+const FriendRequest = require("./models/friendRequest");
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -47,14 +48,46 @@ io.on("connection", async (socket) => {
   const user_id = socket.handshake.query["user_id"];
   const socket_id = socket.id;
   console.log(`Connecting to ${socket_id}`);
-  if (user_id) {
+  if (Boolean(user_id)) {
     await User.findByIdAndUpdate(user_id, { socket_id });
   }
   socket.on("friend_request", async (data) => {
-    console.log(data.to);
+    const to_user = await User.findById(data.to).select("socket_id");
+    const from_user = await User.findById(data.from).select("socket_id");
+    await FriendRequest.create({
+      sender: data.from,
+      recipient: data.to,
+    });
+    io.to(to_user.socket_id).emit("new_friend_request", {
+      message: "New friend request received",
+    });
+    io.to(from_user.socket_id).emit("request_sent", {
+      message: "Request Sent Successfully",
+    });
+  });
 
-    const to = await User.findById(data.to);
-    io.to(to.socket_id).emit("new_friend_request", {});
+  socket.on("accept_request", async (data) => {
+    const request_doc = await FriendRequest.firndById(data.request_id);
+    const sender = await User.findById(request_doc.sender);
+    const receiver = await User.findById(request_doc.recipient);
+    sender.friends.push(request_doc.recipient);
+    receiver.friends.push(request_doc.sender);
+    await receiver.save({ new: true, validateModifiedOnly: true });
+    await sender.save({ new: true, validateModifiedOnly: true });
+
+    await FriendRequest.findByIdAndDelete(data.request_id);
+
+    io.to(sender.socket_id).emit("request_accepted", {
+      message: "Request Accepted Successfully",
+    });
+    io.to(receiver.socket_id).emit("request_accepted", {
+      message: "Request Accepted Successfully",
+    });
+  });
+
+  socket.on("end", function (params) {
+    console.log("Closing connection");
+    socket.disconnect(0);
   });
 });
 process.on("unhandledRejection", (err) => {
