@@ -50,7 +50,7 @@ exports.getRequests = async (req, res, next) => {
   }).populate("sender", "_id firstName lastName");
   res.status(200).json({
     status: "success",
-    date: requests,
+    data: requests,
     message: "Requests Retrieved Successfully",
   });
 };
@@ -61,7 +61,7 @@ exports.getFriends = async (req, res, next) => {
   );
   res.status(200).json({
     status: "success",
-    date: this_user.friends,
+    data: this_user.friends,
     message: "Friends Retrieved Successfully",
   });
 };

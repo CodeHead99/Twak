@@ -161,7 +161,7 @@ io.on("connection", async (socket) => {
     }
     // if yes => just emit event "start_chat" & send conversation details as payload
     else {
-      socket.emit("start_chat", existing_conversations[0]);
+      socket.emit("open_chat", existing_conversations[0]);
     }
   });
 

@@ -55,7 +55,7 @@ const FriendsList = () => {
 const RequestsList = () => {
   const dispatch = useDispatch();
 
-  const { friendRequests } = useSelector((state) => state.app);
+  const friendRequests = useSelector((state) => state.app.friendRequests);
 
   useEffect(() => {
     dispatch(FetchFriendRequests());
