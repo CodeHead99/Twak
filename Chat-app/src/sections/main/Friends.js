@@ -34,7 +34,7 @@ const UsersList = () => {
   );
 };
 
-const FriendsList = () => {
+const FriendsList = ({ setOpenDialog }) => {
   const dispatch = useDispatch();
 
   const { friends } = useSelector((state) => state.app);
@@ -46,7 +46,9 @@ const FriendsList = () => {
   return (
     <>
       {friends?.map((el, idx) => {
-        return <FriendElement key={idx} {...el} />;
+        return (
+          <FriendElement key={idx} {...el} setOpenDialog={setOpenDialog} />
+        );
       })}
     </>
   );
@@ -105,7 +107,7 @@ const Friends = ({ open, handleClose }) => {
                   return <UsersList />;
 
                 case 1: // display friends in this list
-                  return <FriendsList />;
+                  return <FriendsList setOpenDialog={handleClose} />;
 
                 case 2: // display request in this list
                   return <RequestsList />;
